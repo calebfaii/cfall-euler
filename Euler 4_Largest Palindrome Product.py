@@ -12,15 +12,11 @@ start = time.time()
 def generatefactors():
     for num in range(100, 1000):
         factors.append(num)
-
-generatefactors()
-
-for num in factors:
-    for num2 in factors:
-        product = num * num2
-        products.append(product)
-products.sort(reverse=True)
-length = len(products)
+    for num in factors:
+        for num2 in factors:
+            product = num * num2
+            products.append(product)
+    products.sort(reverse=True)
 
 
 def checkpalindrome(list_of_products):
@@ -31,11 +27,13 @@ def checkpalindrome(list_of_products):
         if len(number) == 6:
             if number[0] == number[5] and number[1] == number[4] and number[2] == number[3]:
                 return number, "is the solution."
+
             else:
                 counter += 1
         else:
             return "End of six-digit numbers."
 
+generatefactors()
 print checkpalindrome(products)
 elapsed = (time.time() - start)
 print "Run time: ", elapsed, "seconds."
