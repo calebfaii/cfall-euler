@@ -6,7 +6,6 @@ import time
 
 factors = []
 products = []
-start = time.time()
 
 
 def generatefactors():
@@ -33,6 +32,7 @@ def checkpalindrome(list_of_products):
         else:
             return "End of six-digit numbers."
 
+start = time.time()
 generatefactors()
 print checkpalindrome(products)
 elapsed = (time.time() - start)
