@@ -23,21 +23,35 @@ def get_triangle(num):
 
     """Returns the value of the nth triangle number"""
 
-    tri = 0
-    for i in range(1, num + 1):
-        tri += i
+    tri = (num * (num + 1)) / 2
     return tri
 
 
 def count_factors(num):
 
     """Returns the number of factors of a given triangle number."""
-
-    factors = []
+# TODO: OPTIMIZE THIS FUNCTION.  IT CHECKS TOO MANY VALUES.
+    factors = 2
     halfnum = (num / 2) + 1
-    for i in range(1, halfnum):
-        if num % i == 0:
-            factors.append(i)
-    factors.append(num)
-    count = len(factors)
-    return count
+    if num % 2 == 0:
+        for i in range(2, halfnum):
+            if num % i == 0:
+                factors += 1
+        return factors
+    else:
+        for i in range(3, halfnum, 2):
+            if num % i == 0:
+                factors += 1
+        return factors
+
+def check_range(low, high):
+    for x in range(low, high):
+        xfactors = count_factors(get_triangle(x))
+        print x, xfactors
+        if xfactors > 500:
+            print "Number: ", x
+            print "Triangle Number: ", get_triangle(x)
+            print "Factors: ", xfactors
+
+xfactors = count_factors(get_triangle(10000))
+print xfactors
