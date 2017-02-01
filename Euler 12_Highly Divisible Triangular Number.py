@@ -53,5 +53,5 @@ def check_range(low, high):
             print "Triangle Number: ", get_triangle(x)
             print "Factors: ", xfactors
 
-xfactors = count_factors(get_triangle(10000))
+xfactors = count_factors(get_triangle(100))
 print xfactors
