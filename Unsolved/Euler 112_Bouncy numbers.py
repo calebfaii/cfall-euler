@@ -19,20 +19,36 @@ def is_bouncy(num):
 
     """Receives a number; returns True if the number is bouncy."""
 
-    digits = [int(d) for d in str(num)]
     sort = [int(d) for d in str(num)]
     rev = [int(d) for d in str(num)]
     sorted(sort)
     sorted(rev)
-    reversed(rev)
-    if digits == sort:
+    rev.reverse()
+    sort1 = int(''.join(map(str, sort)))
+    rev1 = int(''.join(map(str, rev)))
+    print num
+    print sort1
+    print rev1
+    if num == sort1:
         return False
-    if digits == rev:
+    if num == rev1:
         return False
     else:
         return True
 
-print is_bouncy(155349)
+
+def count_pct():
+
+    tally = 0
+    value = 1
+    frac = float(tally) / float(value)
+    while True:
+        instance = is_bouncy(value)
+        if instance = True:
+            tally += 1
+
+
+
 
 
 
