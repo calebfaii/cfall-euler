@@ -32,8 +32,9 @@ def checkpalindrome(list_of_products):
         else:
             return "End of six-digit numbers."
 
-start = time.time()
-generatefactors()
-print checkpalindrome(products)
-elapsed = (time.time() - start)
-print "Run time: ", elapsed, "seconds."
+# start = time.time()
+# generatefactors()
+# print checkpalindrome(products)
+# elapsed = (time.time() - start)
+# print "Run time: ", elapsed, "seconds."
+

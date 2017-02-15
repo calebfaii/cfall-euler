@@ -18,120 +18,150 @@
 #
 # Give your answer rounded to six decimal places using the format x.xxxxxx .
 
-import time
-import math
 
-initial = [1, 0, 0, 0, 0]
-first = [0, 1, 1, 1, 1]
+def a1_func(bag):
 
-def a1_func(list):
-
-    a1 = list[0]
-    a2 = list[1]
-    a3 = list[2]
-    a4 = list[3]
-    a5 = list[4]
+    a1 = bag[0]
+    a2 = bag[1]
+    a3 = bag[2]
+    a4 = bag[3]
+    a5 = bag[4]
+    prob = bag[5]
     a1 -= 1
     a2 += 1
     a3 += 1
     a4 += 1
     a5 += 1
-    outcome = [a1, a2, a3, a4, a5]
+    outcome = [a1, a2, a3, a4, a5, prob]
     return outcome
 
 
-def a2_func(list):
-    a1 = list[0]
-    a2 = list[1]
-    a3 = list[2]
-    a4 = list[3]
-    a5 = list[4]
+def a2_func(bag):
+    a1 = bag[0]
+    a2 = bag[1]
+    a3 = bag[2]
+    a4 = bag[3]
+    a5 = bag[4]
+    prob = bag[5]
     a2 -= 1
     a3 += 1
     a4 += 1
     a5 += 1
-    outcome = [a1, a2, a3, a4, a5]
+    outcome = [a1, a2, a3, a4, a5, prob]
     return outcome
 
 
-def a3_func(list):
-    a1 = list[0]
-    a2 = list[1]
-    a3 = list[2]
-    a4 = list[3]
-    a5 = list[4]
+def a3_func(bag):
+    a1 = bag[0]
+    a2 = bag[1]
+    a3 = bag[2]
+    a4 = bag[3]
+    a5 = bag[4]
+    prob = bag[5]
     a3 -= 1
     a4 += 1
     a5 += 1
-    outcome = [a1, a2, a3, a4, a5]
+    outcome = [a1, a2, a3, a4, a5, prob]
     return outcome
 
 
-def a4_func(list):
-    a1 = list[0]
-    a2 = list[1]
-    a3 = list[2]
-    a4 = list[3]
-    a5 = list[4]
+def a4_func(bag):
+    a1 = bag[0]
+    a2 = bag[1]
+    a3 = bag[2]
+    a4 = bag[3]
+    a5 = bag[4]
+    prob = bag[5]
     a4 -= 1
     a5 += 1
-    outcome = [a1, a2, a3, a4, a5]
+    outcome = [a1, a2, a3, a4, a5, prob]
     return outcome
 
 
-def a5_func(list):
-    a1 = list[0]
-    a2 = list[1]
-    a3 = list[2]
-    a4 = list[3]
-    a5 = list[4]
+def a5_func(bag):
+    a1 = bag[0]
+    a2 = bag[1]
+    a3 = bag[2]
+    a4 = bag[3]
+    a5 = bag[4]
+    prob = bag[5]
     a5 -= 1
-    outcome = [a1, a2, a3, a4, a5]
+    outcome = [a1, a2, a3, a4, a5, prob]
     return outcome
 
 
-def all_outcomes(list):
+def run_batch(bag):
 
-    """Receives a list; outputs a list of lists containing all equiprobable outcomes."""
+    """Receives a configuration with probability.  Returns at most 4 configurations with probabilities."""
 
-    outcomes = []
+    states = []
 
-    a1 = list[0]
-    a2 = list[1]
-    a3 = list[2]
-    a4 = list[3]
-    a5 = list[4]
+    a1 = bag[0]
+    a2 = bag[1]
+    a3 = bag[2]
+    a4 = bag[3]
+    a5 = bag[4]
+    prob = bag[5]
 
-    choices = sum(list)
+    sheets = (a1 + a2 + a3 + a4 + a5)
 
-    if choices > 0:
+    a1_prob = (float(a1) / sheets)
+    a2_prob = (float(a2) / sheets)
+    a3_prob = (float(a3) / sheets)
+    a4_prob = (float(a4) / sheets)
+    a5_prob = (float(a5) / sheets)
+
+    if sheets == 1:
+        print prob
+
+    if sheets == 0:
+        return [0, 1, 1, 1, 1, prob]
+
+    if sheets > 0:
+
         if a1 > 0:
-            for i in range(0, a1):
-                outcomes.append(a1_func(list))
+            out = a1_func(bag)
+            out[5] = (out[5] * a1_prob)
+            states.append(out)
+
         if a2 > 0:
-            for i in range(0, a2):
-                outcomes.append(a2_func(list))
+            out = a2_func(bag)
+            out[5] = (out[5] * a2_prob)
+            states.append(out)
+
         if a3 > 0:
-            for i in range(0, a3):
-                outcomes.append(a3_func(list))
+            out = a3_func(bag)
+            out[5] = (out[5] * a3_prob)
+            states.append(out)
+
         if a4 > 0:
-            for i in range(0, a4):
-                outcomes.append(a4_func(list))
+            out = a4_func(bag)
+            out[5] = (out[5] * a4_prob)
+            states.append(out)
+
         if a5 > 0:
-            for i in range(0, a5):
-                outcomes.append(a5_func(list))
-    if choices == 0:
-        x = [0, 1, 1, 1, 1]
-        outcomes.append(x)
-    return outcomes
+            out = a5_func(bag)
+            out[5] = (out[5] * a5_prob)
+            states.append(out)
+    return states
 
-round_1 = all_outcomes(initial)
-r2 = []
-for i in round_1:
-    r2.append(all_outcomes(i))
+def all_batches(max):
 
-print r2
+    batch = 0
+    results_table = []
+    temp_table = []
+    initial_state = [1, 0, 0, 0, 0, 1.0]
+    output = run_batch(initial_state)
+    batch += 1
+    while batch < max:
+        for o in output:
+            res = run_batch(o)
+            for j in res:
+                temp_table.append(j)
+
+        batch += 1
 
 
+all_batches(3)
 
 
