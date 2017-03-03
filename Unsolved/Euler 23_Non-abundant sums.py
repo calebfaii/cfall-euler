@@ -13,18 +13,28 @@
 # Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
 import math
 import itertools
+# import progressbar
+
+# bar = progressbar.ProgressBar(maxval=14598906, \
+    # widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
 
 def generateIntegers(num):
+
+    """Generates a list of integers from 1 to num."""
 
     return list(i for i in range(1, num + 1))
 
 
 def sumFactors(n):
 
+    """Receives an integer; returns the sum of the factors of that integer."""
+
     return (sum(set(reduce(list.__add__, ([i, n // i] for i in range(1, int(math.sqrt(n)) + 1) if n % i == 0)))) - n)
 
 
 def isAbundant(num):
+
+    """Receives an upper bound.  Returns a list of all abundant numbers in that range."""
 
     abundant = []
     for i in range (2, num + 1):
@@ -36,23 +46,39 @@ def isAbundant(num):
 
 def abundantSums(abundant_list):
 
+    """Receives a list of abundant numbers.
+    Returns the sums of all possible r=2 permutations."""
+
     absums = []
-    for i in itertools.combinations(abundant_list, r=2):
+    combos = itertools.combinations(abundant_list, r=2)
+    # length = 14,598,906
+    # index = 1
+    # bar.start()
+    for i in combos:
+        print i
+        # bar.update(index)
         value = sum(i)
         if value < 21823:
             if value not in absums:
                 absums.append(value)
+        # index += 1
+    # bar.finish()
     absums.sort()
     return absums
 
 
 def editList(absums, integers):
 
+    """Receives a list of sums of abundant numbers.
+    If the sum is itself abundant, the number is removed from a list of integers.
+    Returns the sum of all non-abundant integers in a given range."""
+
     for i in absums:
         if i in integers:
             integers.remove(i)
-    return sum(integers)
+    print sum(integers)
+    return integers
 
 
-print len(list(itertools.combinations(isAbundant(21823), r=2))
+print editList(abundantSums((isAbundant(21823))), generateIntegers(21823))
 
