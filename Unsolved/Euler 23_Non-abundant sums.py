@@ -50,19 +50,14 @@ def abundantSums(abundant_list):
     Returns the sums of all possible r=2 permutations."""
 
     absums = []
-    combos = itertools.combinations(abundant_list, r=2)
     # length = 14,598,906
-    # index = 1
-    # bar.start()
-    for i in combos:
-        print i
-        # bar.update(index)
-        value = sum(i)
-        if value < 21823:
-            if value not in absums:
-                absums.append(value)
-        # index += 1
-    # bar.finish()
+    for i in abundant_list:
+        print (float(i) / 21823) + 1, "% complete."
+        for j in abundant_list:
+            value = (i + j)
+            if value < 21823:
+                if value not in absums:
+                    absums.append(value)
     absums.sort()
     return absums
 
