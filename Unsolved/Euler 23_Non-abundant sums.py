@@ -11,12 +11,12 @@
 # this limit.
 #
 # Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
-import math
-import itertools
-# import progressbar
 
-# bar = progressbar.ProgressBar(maxval=14598906, \
-    # widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+import math
+import time
+import itertools
+import progressbar
+
 
 def generateIntegers(num):
 
@@ -29,7 +29,7 @@ def sumFactors(n):
 
     """Receives an integer; returns the sum of the factors of that integer."""
 
-    return (sum(set(reduce(list.__add__, ([i, n // i] for i in range(1, int(math.sqrt(n)) + 1) if n % i == 0)))) - n)
+    return sum(set(reduce(list.__add__, ([i, n // i] for i in range(1, int(math.sqrt(n)) + 1) if n % i == 0)))) - n
 
 
 def isAbundant(num):
@@ -37,7 +37,7 @@ def isAbundant(num):
     """Receives an upper bound.  Returns a list of all abundant numbers in that range."""
 
     abundant = []
-    for i in range (2, num + 1):
+    for i in range(2, num + 1):
         factor_sum = sumFactors(i)
         if factor_sum > i:
             abundant.append(i)
@@ -50,14 +50,16 @@ def abundantSums(abundant_list):
     Returns the sums of all possible r=2 permutations."""
 
     absums = []
-    # length = 14,598,906
-    for i in abundant_list:
-        print (float(i) / 21823) + 1, "% complete."
-        for j in abundant_list:
-            value = (i + j)
-            if value < 21823:
-                if value not in absums:
-                    absums.append(value)
+    a_list = itertools.combinations_with_replacement(abundant_list, r=2)
+    bar = progressbar.ProgressBar(max_value=14604310)
+    counter = 1
+    for i in a_list:
+        value = sum(i)
+        if value <= 21823:
+            if value not in absums:
+                absums.append(value)
+        bar.update(counter)
+        counter += 1
     absums.sort()
     return absums
 
@@ -71,9 +73,15 @@ def editList(absums, integers):
     for i in absums:
         if i in integers:
             integers.remove(i)
-    print sum(integers)
-    return integers
+    print integers
+    print "Answer: ", sum(integers)
 
+def solve(n):
 
-print editList(abundantSums((isAbundant(21823))), generateIntegers(21823))
+    start = time.time()
+    editList(abundantSums((isAbundant(n))), generateIntegers(n))
+    elapsed = (time.time() - start)
+    print "Found in", elapsed, "seconds."
 
+solve(21823)
+# IT WORKS!
