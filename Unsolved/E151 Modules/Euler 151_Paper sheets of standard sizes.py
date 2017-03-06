@@ -106,16 +106,17 @@ def run_batch(bag):
         prob = i[5]
 
         sheets = (a1 + a2 + a3 + a4 + a5)
-
-        a1_prob = (float(a1) / sheets)
-        a2_prob = (float(a2) / sheets)
-        a3_prob = (float(a3) / sheets)
-        a4_prob = (float(a4) / sheets)
-        a5_prob = (float(a5) / sheets)
+        if sheets > 0:
+            a1_prob = (float(a1) / sheets)
+            a2_prob = (float(a2) / sheets)
+            a3_prob = (float(a3) / sheets)
+            a4_prob = (float(a4) / sheets)
+            a5_prob = (float(a5) / sheets)
 
         if sheets == 1:
             global zero_probs
             zero_probs.append(prob)
+            print i
 
         if sheets == 0:
             states.append([0, 1, 1, 1, 1, prob])
@@ -147,14 +148,21 @@ def run_batch(bag):
                 out[5] = (out[5] * a5_prob)
                 states.append(out)
 
-        return states
+    return states
 
 def solve():
 
     iteration = 0
     candidate = [[1, 0, 0, 0, 0, 1.0]]
+    run = run_batch(candidate)
+    print "Batch: ", iteration
+    iteration += 1
     while iteration < 16:
+        print "Batch: ", iteration
+        x = run_batch(run)
+        run = x
+        iteration += 1
 
-
-
+solve()
+# print zero_probs
 
