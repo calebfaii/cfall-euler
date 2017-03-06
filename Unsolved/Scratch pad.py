@@ -1,6 +1,6 @@
-import time
-import progressbar
+string = "FixVersion = '5.7 SR10.%s OMS Delegate' OR"
 
-bar = progressbar.ProgressBar()
-for i in bar(range(100)):
-    time.sleep(0.02)
+for i in range(0, 14):
+    num = str(float(i))
+    print string % (num,)
+
