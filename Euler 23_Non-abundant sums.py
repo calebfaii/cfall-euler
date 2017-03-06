@@ -76,12 +76,14 @@ def editList(absums, integers):
     print integers
     print "Answer: ", sum(integers)
 
+
 def solve(n):
 
     start = time.time()
     editList(abundantSums((isAbundant(n))), generateIntegers(n))
     elapsed = (time.time() - start)
     print "Found in", elapsed, "seconds."
+
 
 solve(21823)
 # IT WORKS!

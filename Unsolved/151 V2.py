@@ -17,20 +17,15 @@
 # the foreman finds a single sheet of paper in the envelope.
 #
 # Give your answer rounded to six decimal places using the format x.xxxxxx .
-import re
-import cProfile
-
-initial = [1, 0, 0, 0, 0]
-first = [0, 1, 1, 1, 1]
 
 
-def a1_func(list):
+def a1_func(bag):
 
-    a1 = list[0]
-    a2 = list[1]
-    a3 = list[2]
-    a4 = list[3]
-    a5 = list[4]
+    a1 = bag[0]
+    a2 = bag[1]
+    a3 = bag[2]
+    a4 = bag[3]
+    a5 = bag[4]
     a1 -= 1
     a2 += 1
     a3 += 1
