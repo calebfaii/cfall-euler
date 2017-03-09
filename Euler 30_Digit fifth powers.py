@@ -15,9 +15,7 @@ import progressbar
 
 def break_int(n):
 
-    digits = str(n)
-    listed = list(int(i) for i in digits)
-    return listed
+    return list(int(i) for i in str(n))
 
 
 def raise_fifth(digits):
