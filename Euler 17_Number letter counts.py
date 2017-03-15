@@ -136,11 +136,11 @@ def solve(maxval):
                 cscore += triple_digits(digits[0])
 
         if len(digits) == 4:
-            cscore += 14
+            cscore += 11
 
         score += cscore
     return score
 
 
-print solve(1000)
-# NOT SOLVED
+print solve(1000) - 27
+# SOLVED

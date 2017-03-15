@@ -36,7 +36,7 @@ def solve():
         if i == raise_fifth(num):
             solutions.append(i)
     print " "
-    return sum(solutions)
+    return solutions
 
 
 print solve()
