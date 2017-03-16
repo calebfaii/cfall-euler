@@ -1,5 +1,7 @@
 # Find the maximum total from top to bottom of the triangle below:
 
+import itertools
+
 row01 = [75]
 row02 = [95, 64]
 row03 = [17, 47, 82]
@@ -18,14 +20,6 @@ row15 = [04, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 4, 23]
 
 matrix = [row02, row03, row04, row05, row06, row07,
           row08, row09, row10, row11, row12, row13, row14, row15]
-
-stacks = []
-
-if len(stacks) == 0:
-    stacks.append(row01[0])
-if len(stacks)
-for row in matrix:
-    for value in row:
 
 
 
