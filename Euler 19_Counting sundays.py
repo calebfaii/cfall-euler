@@ -79,4 +79,3 @@ def solve():
     print counter.Sundays
 
 solve()
-# SOLVED!
