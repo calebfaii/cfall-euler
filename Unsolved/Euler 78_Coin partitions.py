@@ -27,20 +27,23 @@ def rule_asc(n):
         yield a[:k + 1]
 
 
-def gen_parts():
+# def gen_parts():
+#
+#     x = 1
+#     parts = len(list(rule_asc(x)))
+#
+#     while x > 0:
+#         if x % 1000000 == 0:
+#             print x * 1000000
+#         if parts < 1000000:
+#             x += 1
+#         if parts > 1000000:
+#             if parts % 1000000 == 0:
+#                 return x
+#             else:
+#                 x += 1
+#
+# print len(list(rule_asc(55374)))
 
-    x = 1
-    parts = len(list(rule_asc(x)))
+print len(list(rule_asc(100)))
 
-    while x > 0:
-        if x % 1000000 == 0:
-            print x * 1000000
-        if parts < 1000000:
-            x += 1
-        if parts > 1000000:
-            if parts % 1000000 == 0:
-                return x
-            else:
-                x += 1
-
-print len(list(rule_asc(55374)))
