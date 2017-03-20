@@ -20,10 +20,8 @@ def break_int(n):
 
 def raise_fifth(digits):
 
-    value = 0
-    for num in digits:
-        value += num**5
-    return value
+
+    return sum(i**5 for i in digits)
 
 
 def solve():

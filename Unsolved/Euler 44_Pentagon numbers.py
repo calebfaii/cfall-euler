@@ -63,7 +63,7 @@ def try_difference(p_list):
     else:
         return pdiff_list
 
-print try_difference(get_pentagonal(1, 100))
+print try_difference(get_pentagonal(1, 60000))
 
 
 # while True:
