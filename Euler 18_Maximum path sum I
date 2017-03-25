@@ -1,7 +1,7 @@
 # Find the maximum total from top to bottom of the triangle below:
 
 from itertools import product
-import time
+
 
 row01 = [75]
 row02 = [95, 64]
@@ -19,42 +19,46 @@ row13 = [91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48]
 row14 = [63, 66, 4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31]
 row15 = [04, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 4, 23]
 
-matrix = [row01, row02, row03, row04, row05, row06, row07,
-          row08, row09, row10, row11, row12, row13, row14, row15]
+matrix = [row01, row02, row03, row04, row05,
+          row06, row07, row08, row09, row10,
+          row11, row12, row13, row14, row15]
 
 
 def permutations_with_replacement(n):
+
     return product([0, 1], repeat=n)
 
 
-def run_instructions(paths):
+def run_instructions():
+
     outcomes = []
-    digits = 14
-    for path in permutations_with_replacement(digits):
-        templist = []
+    for path in permutations_with_replacement(14):
+        path_list = []
         row = 1
         index = 0
-        templist.append(matrix[0][0])
+        path_list.append(matrix[0][0])
         for step in path:
             index += step
             value = matrix[row][index]
-            templist.append(value)
+            path_list.append(value)
             row += 1
-        outcomes.append(templist)
+        outcomes.append(path_list)
+    print "Number of Paths: ", len(outcomes)
     return outcomes
 
 
 def solve():
-    start = time.time()
-    sums = run_instructions(permutations_with_replacement(14))
+
+    sums = run_instructions()
     finals = []
     for i in sums:
         total = sum(i)
         finals.append(total)
     winner = max(finals)
-    elapsed = (time.time() - start)
-    print "Maximum Path Score: ", winner
-    print "Solved in", elapsed, "seconds."
+    path = finals.index(winner)
+    print "Solution: ", winner
+    print "Path: ", sums[path]
+
 
 solve()
 # SOLVED!

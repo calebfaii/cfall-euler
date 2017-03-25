@@ -117,5 +117,5 @@ def run_key():
     print " "
     print "Sum:          ", sum(translation)
 
-run_key()
+# run_key()
 # SOLVED

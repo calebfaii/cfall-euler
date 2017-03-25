@@ -6,31 +6,34 @@
 
 import time
 
-x = int(raw_input("'A' Lower Bound: "))
-y = int(raw_input("'C' Upper Bound: "))
 
-def findtriplet(x, y):
+def findtriplet(x=0, y=500):
+
     for a in range(x, y):
         for b in range(a, y):
             for c in range(b, y):
-                if a < b and b < c and a < c:
-                    if a + b + c == 1000:
-                        a2 = a**2
-                        b2 = b**2
-                        c2 = c**2
-                        if a2 + b2 == c2:
-                            product = (a * b * c)
-                            print "############"
-                            print "# A = ", a, "#"
-                            print "# B = ", b, "#"
-                            print "# C = ", c, "#"
-                            print "# Product: #"
-                            print "#", product, "#"
-                            print "############"
+                if a < b < c and a + b + c == 1000:
+                    a2 = a**2
+                    b2 = b**2
+                    c2 = c**2
+
+                    if a2 + b2 == c2:
+
+                        product = (a * b * c)
+                        print "A =", a
+                        print "B =", b
+                        print "C =", c
+                        print "Product =", product
+                        break
 
 
-start = time.time()
-findtriplet(x,y)
-elapsed = (time.time() - start)
-print "Run time: "
-print elapsed, "seconds."
+def solve():
+    start = time.time()
+    findtriplet()
+    elapsed = (time.time() - start)
+    print " "
+    print "Run time: ", elapsed, "seconds."
+
+
+solve()
+# SOLVED

@@ -8,6 +8,7 @@
 # 23 letters and 115 (one hundred and fifteen) contains 20 letters. The use of "and" when writing
 # out numbers is in compliance with British usage.
 
+
 def single_digits(n):
 
     if n == 1:
@@ -104,43 +105,44 @@ def triple_digits(n):
         return 0
 
 
-def solve(maxval):
+def solve():
 
-
-    candidates = list(range(1, maxval + 1))
+    numbers = list(range(1, 1001))
     score = 0
 
-    for i in candidates:
+    for i in numbers:
 
-        cscore = 0
+        n_score = 0
         digits = list(int(x) for x in str(i))
 
         if len(digits) == 1:
-            cscore += single_digits(digits[0])
+            n_score += single_digits(digits[0])
 
         if len(digits) == 2:
             if digits[0] == 1:
-                cscore += teens(i)
+                n_score += teens(i)
             else:
-                cscore += double_digits(digits[0])
-                cscore += single_digits(digits[1])
+                n_score += double_digits(digits[0])
+                n_score += single_digits(digits[1])
 
         if len(digits) == 3:
             if digits[1] == 1:
                 two = i - 100 * digits[0]
-                cscore += teens(two)
-                cscore += triple_digits(digits[0])
+                n_score += teens(two)
+                n_score += triple_digits(digits[0])
+                if digits[2] == 0:
+                    n_score -= 3
             else:
-                cscore += single_digits(digits[2])
-                cscore += double_digits(digits[1])
-                cscore += triple_digits(digits[0])
+                n_score += single_digits(digits[2])
+                n_score += double_digits(digits[1])
+                n_score += triple_digits(digits[0])
 
         if len(digits) == 4:
-            cscore += 11
+            n_score += 11
 
-        score += cscore
-    return score
+        score += n_score
+    print "Solution: ", score
 
 
-print solve(1000) - 27
+solve()
 # SOLVED

@@ -1,23 +1,24 @@
 # Work out the first ten digits of the sum of the following one-hundred 50-digit numbers.
 # Filename: PE13.txt
 
-while True:
-    numbers = []
 
+def import_text():
+
+    numbers = []
     number_list = open("PE13.txt")
     lines = number_list.read().split()
     for number in lines:
         numbers.append(number)
+    return numbers
 
-    x = int(raw_input("How many digits? : "))
 
-    sum_table = []
+def solve(numbers):
 
+    sum_total = 0
     for number in numbers:
-        index = (49 - x)
-        summ = int(number[index + 1: 50])
-        sum_table.append(summ)
-    guess = sum(sum_table)
+        sum_total += int(number)
+    print "Solution: ", str(sum_total)[0:10]
 
-    print "Guess: ", guess
-    print "========================"
+
+solve(import_text())
+# SOLVED

@@ -18,15 +18,14 @@
 #
 # What is the value of the first triangle number to have over five hundred divisors?
 
-import time
+import progressbar
 
 
 def get_triangle(num):
 
     """Returns the value of the nth triangle number"""
 
-    tri = (num * (num + 1)) / 2
-    return tri
+    return (num * (num + 1)) / 2
 
 
 def factors(n):
@@ -41,19 +40,19 @@ def evaluate():
 
     """No arguments; initializes a check of factor counts, starting from the first triangle number."""
 
-    start = time.time()
     x = 1
-
+    bar = progressbar.ProgressBar(max_value=progressbar.UnknownLength)
     while True:
         t = get_triangle(x)
         check = factors(t)
+        bar.update(x)
         if check >= 500:
-            elapsed = (time.time() - start)
+            print " "
             print "Solution: ", t
             print "Index: ", x
-            print "Found in", elapsed, "seconds."
             break
         if check < 500:
             x += 1
 
 evaluate()
+# SOLVED

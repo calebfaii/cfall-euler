@@ -7,8 +7,11 @@
 # Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
 # Which starting number, under one million, produces the longest chain?
 
+import progressbar
+
 
 def collatz(n):
+
     table = []
     while n > 1:
         table.append(n)
@@ -21,17 +24,22 @@ def collatz(n):
     return len(table)
 
 
-def return_best(n):
-    upper = n - 1
+def return_best(n=1000000):
+
     best_val = 0
     best_num = 0
-    for i in range(2, upper):
-        print "Evaluating: ", i
+    bar = progressbar.ProgressBar(max_value=1000001)
+
+    for i in range(2, n + 1):
         i_length = collatz(i)
         if i_length > best_val:
             best_val = i_length
             best_num = i
+        bar.update(i)
+    print " "
     print "Best Length: ", best_val
     print "Start: ", best_num
 
-return_best(1000000)
+
+return_best()
+# SOLVED

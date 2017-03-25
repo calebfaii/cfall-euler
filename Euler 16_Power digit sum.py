@@ -1,12 +1,16 @@
-import time
+# 2^15 = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
+#
+# What is the sum of the digits of the number 2^1000?
 
-start = time.time()
 
-value = str(2**1000)
-init = 0
-for num in value:
-    init += int(num)
+def solve():
 
-print init
-elapsed = (time.time() - start)
-print "Found in", elapsed, "seconds"
+    value = str(2**1000)
+    digit_sum = 0
+    for num in value:
+        digit_sum += int(num)
+    print "Solution: ", digit_sum
+
+
+solve()
+# SOLVED

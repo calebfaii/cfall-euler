@@ -10,8 +10,7 @@ def catalan(n):
 
     """Returns the Catalan number of the input."""
 
-    c = math.factorial(2 * n) / (math.factorial(n) * math.factorial(n + 1))
-    return c
+    return math.factorial(2 * n) / (math.factorial(n) * math.factorial(n + 1))
 
 
 def exceedance_paths(n):
@@ -25,6 +24,8 @@ def unique_paths(n):
 
     """Returns the number of unique paths through an n by n matrix (down and right only)."""
 
-    return catalan(n) * exceedance_paths(n)
+    print "Solution: ", catalan(n) * exceedance_paths(n)
 
-print unique_paths(20)
+
+unique_paths(20)
+# SOLVED
