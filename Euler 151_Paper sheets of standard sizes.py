@@ -105,7 +105,6 @@ def run_batch(bag):
         a4 = i[3]
         a5 = i[4]
         prob = i[5]
-
         sheets = (a1 + a2 + a3 + a4 + a5)
         if sheets > 0:
             a1_prob = (float(a1) / sheets)
@@ -113,40 +112,31 @@ def run_batch(bag):
             a3_prob = (float(a3) / sheets)
             a4_prob = (float(a4) / sheets)
             a5_prob = (float(a5) / sheets)
-
-        if sheets == 1:
-            global zero_probs
-            zero_probs.append(prob)
-
-        if sheets == 0:
-            states.append([0, 1, 1, 1, 1, prob])
-
-        if sheets > 0:
-
             if a1 > 0:
                 out = a1_func(i)
                 out[5] = (out[5] * a1_prob)
                 states.append(out)
-
             if a2 > 0:
                 out = a2_func(i)
                 out[5] = (out[5] * a2_prob)
                 states.append(out)
-
             if a3 > 0:
                 out = a3_func(i)
                 out[5] = (out[5] * a3_prob)
                 states.append(out)
-
             if a4 > 0:
                 out = a4_func(i)
                 out[5] = (out[5] * a4_prob)
                 states.append(out)
-
             if a5 > 0:
                 out = a5_func(i)
                 out[5] = (out[5] * a5_prob)
                 states.append(out)
+        if sheets == 1:
+            global zero_probs
+            zero_probs.append(prob)
+        if sheets == 0:
+            states.append([0, 1, 1, 1, 1, prob])
     return states
 
 
@@ -155,14 +145,13 @@ def solve(batches):
     iteration = 0
     candidate = [[1, 0, 0, 0, 0, 1.0]]
     run = run_batch(candidate)
-    print "Batch: ", iteration
     iteration += 1
     while iteration < batches:
-        print "Batch: ", iteration
         x = run_batch(run)
         run = x
         iteration += 1
 
+
 solve(16)
-print sum(zero_probs) - 1.0
+print "The solution is: ", round(sum(zero_probs) - 2, 6)
 # SOLVED
