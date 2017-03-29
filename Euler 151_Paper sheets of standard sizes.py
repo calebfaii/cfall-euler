@@ -20,6 +20,7 @@
 
 zero_probs = []
 
+
 def a1_func(bag):
 
     a1 = bag[0]
@@ -116,7 +117,6 @@ def run_batch(bag):
         if sheets == 1:
             global zero_probs
             zero_probs.append(prob)
-            print i
 
         if sheets == 0:
             states.append([0, 1, 1, 1, 1, prob])
@@ -147,22 +147,22 @@ def run_batch(bag):
                 out = a5_func(i)
                 out[5] = (out[5] * a5_prob)
                 states.append(out)
-
     return states
 
-def solve():
+
+def solve(batches):
 
     iteration = 0
     candidate = [[1, 0, 0, 0, 0, 1.0]]
     run = run_batch(candidate)
     print "Batch: ", iteration
     iteration += 1
-    while iteration < 16:
+    while iteration < batches:
         print "Batch: ", iteration
         x = run_batch(run)
         run = x
         iteration += 1
 
-solve()
-# print zero_probs
-
+solve(16)
+print sum(zero_probs) - 1.0
+# SOLVED
