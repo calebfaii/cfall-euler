@@ -10,6 +10,7 @@
 import itertools
 
 
+
 def get_pentagonal(low, high):
 
     """Returns the first n pentagonal numbers."""
@@ -36,6 +37,7 @@ def iterate_sums(p_list):
         return psum_list
 
 
+
 def iterate_difference(sum_list, p_list):
 
     """Receives a list of pairs; returns those pairs whose difference is pentagonal."""
@@ -50,20 +52,24 @@ def iterate_difference(sum_list, p_list):
     else:
         return "No d-list in this range."
 
+print iterate_difference(iterate_sums(get_pentagonal(1, 1000)), get_pentagonal(1, 1000))
 
 def try_difference(p_list):
 
+    iter = itertools.combinations(p_list, 2)
     pdiff_list = []
-    for i in itertools.combinations(p_list, 2):
+    counter = 1
+    for i in iter:
         idiff = (i[1] - i[0])
         if idiff in p_list:
             pdiff_list.append(i)
+        counter += 1
     if len(pdiff_list) == 0:
         return "No s-list in this range."
     else:
         return pdiff_list
 
-print try_difference(get_pentagonal(1, 60000))
+# print try_difference(get_pentagonal(1, 60000))
 
 
 # while True:
