@@ -42,12 +42,23 @@ def solve(bound):
     counter = 1
 
     for prime in primes:
+        bar.update(counter)
+        counter += 1
+
         perms = []
         prime_split = break_int(prime)
         length = len(prime_split)
 
-        if length == 2:
-            if prime_split[0] in primes and prime_split[1] in primes:
+        if 0 in prime_split:
+            continue
+
+        if 4 in prime_split or 6 in prime_split or 8 in prime_split:
+            continue
+
+        if (prime_split[0] not in [2, 3, 5, 7]) or (prime_split[-1] not in [2, 3, 5, 7]):
+            continue
+
+        if length == 2 and all(val in primes for val in prime_split):
                 solutions.append(prime)
 
         if length > 2:
@@ -59,13 +70,11 @@ def solve(bound):
             if all(p in primes for p in perms):
                 solutions.append(prime)
 
-        bar.update(counter)
-        counter += 1
 
     print " "
     if len(solutions) == 11:
         print "The solution is", sum(solutions)
-    return solutions
+        return solutions
 
-print solve(1000000)
+print solve(798000)
 # SOLVED
