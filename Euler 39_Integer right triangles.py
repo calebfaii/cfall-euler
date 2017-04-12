@@ -26,7 +26,7 @@ def solve():
 
     maximum = 0
     solution = 0
-    bar = progressbar.ProgressBar(max_value=1002)
+    bar = progressbar.ProgressBar(max_value=1000)
 
     for p in range(1, 1001):
         solutions = get_sides(p)
