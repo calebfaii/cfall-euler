@@ -81,3 +81,4 @@ for perm in one_four_dig:
                 solutions.append(product)
 
 print sum(solutions)
+# SOLVED
