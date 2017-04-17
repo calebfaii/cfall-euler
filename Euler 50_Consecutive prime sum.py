@@ -55,15 +55,20 @@ def solve():
 
     for num in range(10):
         stop = best_len + num
+
         while sum(p_list[num:stop]) < 1000000:
             candidate = sum(p_list[num:stop])
+
             if isprime(candidate):
                 length = stop - num
+
                 if length >= best_len:
                     best_len = length
                     lengths.append(length)
                     solutions.append(candidate)
+
             stop += 1
+
     index = lengths.index(best_len)
     print "%d can be written as the sum of %d consecutive primes." % (solutions[index], best_len)
 
