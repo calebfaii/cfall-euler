@@ -34,6 +34,28 @@ def join_list(p_list):
     return int(''.join(map(str, p_list)))
 
 
+def isprime(n):
+
+    """Returns True if n is prime."""
+
+    if n == 2:
+        return True
+    if n == 3:
+        return True
+    if n % 2 == 0:
+        return False
+    if n % 3 == 0:
+        return False
+    i = 5
+    w = 2
+    while i * i <= n:
+        if n % i == 0:
+            return False
+        i += w
+        w = 6 - w
+    return True
+
+
 def solve(bound):
 
     primes = primes_sieve(bound)
@@ -67,7 +89,7 @@ def solve(bound):
                     perms.append(join_list(prime_split[:-num]))
                     perms.append(join_list(prime_split[num:]))
 
-            if all(p in primes for p in perms):
+            if all(isprime(p) for p in perms):
                 solutions.append(prime)
 
 

@@ -108,6 +108,16 @@ def monte_carlo_2(trials):
 
             plates_seen.append(number_value)
         bar.update(trial)
+
+    outcomes.sort()
+    for i in outcomes:
+        out = 0
+        for j in outcomes:
+            if j <= i:
+                out += 1
+        chance = float(out) / float(len(outcomes))
+        print "Odds of finding a match at %d plates or sooner: %d" % (i, chance)
+
     print " "
     print " "
     print "%d trials completed successfully." % trials
@@ -115,6 +125,8 @@ def monte_carlo_2(trials):
     print "Largest matching plate value incidence:", max(outcomes)
     print "Expected value:", float(sum(outcomes)) / float (len(outcomes))
 
+
+monte_carlo_2(10)
 
 def old_fashioned_way():
 
@@ -144,7 +156,7 @@ def old_fashioned_way():
     print expected_values
     return multiplier
 
-print old_fashioned_way()
+
 
 
 
