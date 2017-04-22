@@ -21,26 +21,21 @@
 # ASCII codes, and the knowledge that the plain text must contain common English words, decrypt
 # the message and find the sum of the ASCII values in the original text.
 
-encrypted = []  # list of initial int values of cypher -- 1201 characters
-encrypted_list = open("p059_cipher.txt")
-lines = encrypted_list.read().split(',')
-for num in lines:
-    encrypted.append(int(num))
-print "Cypher values:", encrypted
+import time
+import progressbar
 
-key_candidates = []  # used a list of three-letter words; failed because they were capitalized
-word_list = open("p059_words.txt")
-wlines = word_list.read().split(',')
-for word in wlines:
-    key_candidates.append(word)
-# print len(key_candidates)
 
-binary_key_candidates = []  # converted text to 8-bit binary
-for item in key_candidates:
-    b_list = []
-    for character in item:
-        b_list.append('{0:08b}'.format(ord(character)))
-    binary_key_candidates.append(b_list)
+def import_cipher():
+    print " "
+    print "Importing cipher..."
+    encrypted = []
+    encrypted_list = open("p059_cipher.txt")
+    lines = encrypted_list.read().split(',')
+    for num in lines:
+        encrypted.append(int(num))
+    print "Cipher imported successfully."
+    print " "
+    return encrypted
 
 
 def int_to_binary(numlist):
@@ -57,65 +52,70 @@ def XOR(byte, key):
     return ''.join([_xormap[a, b] for a, b in zip(byte, key)])
 
 
-lowercase_list = list(range(97, 123))
-# print lowercase_list
-all_combos = []
-for L1 in lowercase_list:
-    for L2 in lowercase_list:
-        for L3 in lowercase_list:
-            triple = [int(L1), int(L2), int(L3)]
-            all_combos.append(triple)
-bcombos = []
-for obj in all_combos:
-    itb = int_to_binary(obj)
-    bcombos.append(itb)
+def explore_encrypted():
 
-binary_cypher = int_to_binary(encrypted)
-translations = 0
-# f = open('out.txt', 'w')
-# for key in bcombos:
-#     # print "TOTAL TRANSLATIONS: ", translations
-#     translation = []
-#     counter = 0
-#     triplet = 0
-#     while counter < 1201:
-#         # print counter
-#         byte_mod = chr(int(XOR(binary_cypher[counter], key[triplet]), base=2))
-#         # print "INT:", binary_cypher[counter]
-#         # print "   :", key[triplet]
-#         translation.append(byte_mod)
-#         # print " "
-#         counter += 1
-#         triplet += 1
-#         if triplet == 3:
-#             triplet = 0
-#         translations += 1
-#         # print "+++++++++++++++++++"
-#     print key, "".join(translation)
-#     print >> f, key, "".join(translation)
-#     # print translation[0][:-10], key,
-# f.close()
+    lowercase_list = list(range(97, 123))
+    all_combos = []
+    for L1 in lowercase_list:
+        for L2 in lowercase_list:
+            for L3 in lowercase_list:
+                triple = [int(L1), int(L2), int(L3)]
+                all_combos.append(triple)
+    bcombos = []
+    for obj in all_combos:
+        itb = int_to_binary(obj)
+        bcombos.append(itb)
+    binary_cypher = int_to_binary(import_cipher())
+    print "Translating cipher with %d keys..." % len(bcombos)
+    bar = progressbar.ProgressBar(max_value=len(bcombos))
+    ticker = 1
+    for key in bcombos:
+        bar.update(ticker)
+        ticker += 1
+        translation = []
+        counter = 0
+        triplet = 0
+        while counter < 1201:
+            byte_mod = chr(int(XOR(binary_cypher[counter], key[triplet]), base=2))
+            translation.append(byte_mod)
+            counter += 1
+            triplet += 1
+            if triplet == 3:
+                triplet = 0
+        str_trans = ''.join(map(str, translation))
+        if 'and ' in str_trans and 'the ' in str_trans:
+            print " "
+            print " "
+            bindata = [str(unichr(int(i, 2))) for i in key]
+            print "Logical translation found. Key:", ''.join(bindata)
+            return [key, binary_cypher]
 
 
-def run_key():
+def run_key(key_and_cipher):
 
-    b_key = ['01100111', '01101111', '01100100']
-    binary_cypher = int_to_binary(encrypted)
-    # print len(binary_cypher)
+    b_key = key_and_cipher[0]
+    binary_cypher = key_and_cipher[1]
     translation = []
+    english_trans = []
     counter = 0
     triplet = 0
     while counter < 1201:
-        # print b_key[triplet]
         byte_mod = int(XOR(binary_cypher[counter], b_key[triplet]), 2)
         translation.append(byte_mod)
+        english_trans.append(str(unichr(byte_mod)))
         counter += 1
         triplet += 1
         if triplet == 3:
             triplet = 0
-    print "Post-XOR:     ", translation
     print " "
+    print "Translation:  ", ''.join(map(str, english_trans))
+    print "Post-XOR:     ", translation
     print "Sum:          ", sum(translation)
 
-# run_key()
+
+start = time.time()
+run_key(explore_encrypted())
+elapsed = time.time() - start
+print " "
+print "Total run time:", elapsed, "seconds."
 # SOLVED
