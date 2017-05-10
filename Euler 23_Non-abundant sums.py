@@ -15,56 +15,47 @@
 import math
 import time
 import itertools
-import progressbar
 
 
-def generateIntegers(num):
+def generate_integers(num):
 
     """Generates a list of integers from 1 to num."""
 
-    return list(i for i in range(1, num + 1))
+    return [i for i in range(1, num + 1)]
 
 
-def sumFactors(n):
+def sum_factors(n):
 
     """Receives an integer; returns the sum of the factors of that integer."""
 
-    return sum(set(reduce(list.__add__, ([i, n // i] for i in range(1, int(math.sqrt(n)) + 1) if n % i == 0)))) - n
+    return sum(set(reduce(list.__add__, ([i, n // i]
+                                         for i in range(1, int(math.sqrt(n)) + 1)
+                                         if n % i == 0)))) - n
 
 
-def isAbundant(num):
+def is_abundant(num):
 
     """Receives an upper bound.  Returns a list of all abundant numbers in that range."""
 
     abundant = []
     for i in range(2, num + 1):
-        factor_sum = sumFactors(i)
+        factor_sum = sum_factors(i)
         if factor_sum > i:
             abundant.append(i)
     return abundant
 
 
-def abundantSums(abundant_list):  # This function is too slow.
+def abundant_sums(abundant_list):  # This function is too slow.
 
     """Receives a list of abundant numbers.
     Returns the sums of all possible r=2 permutations."""
 
-    absums = []
-    a_list = itertools.combinations_with_replacement(abundant_list, r=2)
-    bar = progressbar.ProgressBar(max_value=14604310)
-    counter = 1
-    for i in a_list:
-        value = sum(i)
-        if value <= 21823:
-            if value not in absums:
-                absums.append(value)
-        bar.update(counter)
-        counter += 1
-    absums.sort()
-    return absums
+    print "Running..."
+    absums = set(sum(i) for i in itertools.combinations_with_replacement(abundant_list, r=2) if sum(i) <= 21823)
+    return sorted(absums)
 
 
-def editList(absums, integers):
+def edit_list(absums, integers):
 
     """Receives a list of sums of abundant numbers.
     If the sum is itself abundant, the number is removed from a list of integers.
@@ -73,17 +64,16 @@ def editList(absums, integers):
     for i in absums:
         if i in integers:
             integers.remove(i)
-    print integers
     print "Answer: ", sum(integers)
 
 
 def solve(n):
 
     start = time.time()
-    editList(abundantSums((isAbundant(n))), generateIntegers(n))
+    edit_list(abundant_sums((is_abundant(n))), generate_integers(n))
     elapsed = (time.time() - start)
     print "Found in", elapsed, "seconds."
 
 
 solve(21823)
-# IT WORKS!
+# SOLVED
