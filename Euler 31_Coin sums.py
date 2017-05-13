@@ -9,11 +9,12 @@
 #
 # How many different ways can $2 be made using any number of coins?
 
-target = 200
+target_value = 200
 coins = [1, 2, 5, 10, 20, 50, 100, 200]
-ways = [1] + [0] * target
+unique_ways = [1] + [0] * target_value
+print unique_ways
 for coin in coins:
-    for i in range(coin, target + 1):
-        ways[i] += ways[i - coin]
-print ways[target]
+    for i in range(coin, target_value + 1):
+        unique_ways[i] += unique_ways[i - coin]
+print unique_ways[target_value]
 # SOLVED

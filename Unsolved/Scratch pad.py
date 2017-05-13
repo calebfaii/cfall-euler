@@ -1,4 +1,4 @@
-lista = [x**2 for x in range(1, 10)]
+newlist = [i for i in range(1,100)]
 
-for i in enumerate(lista):
-    print i[0]
+
+print newlist
