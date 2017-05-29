@@ -1,0 +1,51 @@
+# The Fibonacci sequence is defined by the recurrence relation:
+#
+#     Fn = Fn-1 + Fn-2, where F1 = 1 and F2 = 1.
+#
+# It turns out that F541, which contains 113 digits, is the first Fibonacci number
+# for which the last nine digits are 1-9 pandigital (contain all the digits 1 to 9, but
+# not necessarily in order). And F2749, which contains 575 digits,
+# }" is the first Fibonacci
+# number for which the first nine digits are 1-9 pandigital.
+#
+# Given that Fk is the first Fibonacci number for which the first nine digits AND the last
+# nine digits are 1-9 pandigital, find k.
+
+import progressbar
+import yappi
+
+
+def nine_pandigital(nine):
+
+    if nine == {1, 2, 3, 4, 5, 6, 7, 8, 9}:
+        return True
+    return False
+
+
+def solve():
+
+    fib1 = 1
+    fib2 = 1
+    index = 2
+    bar = progressbar.ProgressBar(initial_value=2, max_value=progressbar.UnknownLength)
+
+    while True:
+
+        last_fib = fib2
+        next_fib = fib2 + fib1
+        index += 1
+        bar.update(index)
+
+        if index > 300000:
+
+            first_nine = {int(i) for i in str(next_fib)[0:9]}
+
+            if nine_pandigital(first_nine):
+                last_nine = {int(i) for i in str(next_fib)[-9:]}
+                if nine_pandigital(last_nine):
+                    return "Solution: %d" % index
+
+        fib1, fib2 = last_fib, next_fib
+
+print solve()
+
