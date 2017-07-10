@@ -16,11 +16,11 @@ def compare_divisors(top):
     count = 0
     val = 3
     n1 = factors(2)
-    perc = 1
+    # perc = 1
     while val <= top:
-        if (val - 1) % 100000 == 0:
-            print perc, "% complete."
-            perc += 1
+        # if (val - 1) % 100000 == 0:
+        #     print perc, "% complete."
+        #     perc += 1
         n2 = factors(val)
         if n2 == n1:
             count += 1

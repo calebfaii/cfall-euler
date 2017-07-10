@@ -1,0 +1,42 @@
+# Find the unique positive integer whose square has the form
+#
+# 1_2_3_4_5_6_7_8_9_0,
+#
+# where each "_" is a single digit.
+
+import itertools
+import math
+import progressbar
+
+perms = [i for i in itertools.permutations([num for num in xrange(0, 10)], 9)]
+
+def build_integer(permutation):
+
+    given = '1_2_3_4_5_6_7_8_9_0'
+    perm = ''.join(str(i) for i in permutation)
+    for digit in perm:
+        given = str.replace(given, '_', digit, 1)
+    return str(given)
+
+# print build_integer(perms[700])
+
+def solve(perms=perms):
+
+    bar = progressbar.ProgressBar(max_value=len(perms))
+    x = enumerate(perms, start=1)
+
+    for i, perm in x:
+
+        p = build_integer(perm)
+        s = math.sqrt(float(p))
+
+        if s.is_integer():
+            return "The solution is %d. Str: %s" % (int(s), int(p))
+
+        bar.update(i)
+        next(x)
+
+    return "Solution not found."
+
+# print 1013091779**2
+print solve()

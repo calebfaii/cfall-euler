@@ -32,7 +32,6 @@ def is_palindrome(n):
 
     if n == int(str(n)[::-1]):
         return True
-
     else:
         return False
 
@@ -43,7 +42,6 @@ def check_cap_50(n):
     value = reverse_and_add(n)
 
     while runs_completed < 51:
-
         if is_palindrome(value):
             return False
 

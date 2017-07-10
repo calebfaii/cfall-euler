@@ -7,52 +7,37 @@
 # by 80 matrix, from the top left to the bottom right by only
 # moving right and down.
 
-import time
+import itertools
 
-array = []
-array_text = open("p081_matrix.txt")
-for line in array_text.read().splitlines():
-    line_list = []
-    for value in line.split(','):
-        line_list.append(int(value))
-    array.append(line_list)
+def import_matrix():
 
-
-def backwards_greedy(array):
-
-    squares = []
-    row = -1
-    column = -1
-    squares.append(array[-1][-1])
-    while column > -81:
-        try:
-            print row, column
-            current = array[row][column]
-            left = array[row][column - 1]
-            up = array[row - 1][column]
-            if column == -80:
-                while row > -81:
-                    squares.append(up)
-                    row -= 1
-                    break
-                break
-            if left < up:
-                squares.append(left)
-                column -= 1
-            if left > up:
-                squares.append(up)
-                row -= 1
-            if left == up:
-                print "Error - Row: ", row, "Col: ", column, "Square: ", current
+    array = []
+    array_text = open("p081_matrix.txt")
+    for row in array_text.read().splitlines():
+        row_list = []
+        for value in row.split(','):
+            row_list.append(int(value))
+        array.append(row_list)
+    return array
 
 
-        except IndexError:
-            print "Index Error"
-    print squares
-    print sum(squares)
+def solve():
+
+    matrix = import_matrix()
+
+    zero = 0
+    one = 1
+    paths = [1, 0]
+
+    print len(list(itertools.permutations(paths, r=158)))
+
+# NOT SOLVED
 
 
-backwards_greedy(array)
+
+
+
+
 
 
 
