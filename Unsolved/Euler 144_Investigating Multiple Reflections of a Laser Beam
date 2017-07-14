@@ -28,6 +28,7 @@
 import math
 from sympy import Ellipse, Point, Line, Segment
 import matplotlib.pyplot as plt
+# import matplotlib.lines as mlines
 from matplotlib.patches import Ellipse as eplot
 
 beam_start = Point(0.0, 10.1)
@@ -49,33 +50,34 @@ class EPoint(object):
     def __init__(self, point, last_point):
 
         self.point = point
-        print "Point", self.point
+        print "Point:", self.point
         self.last_point = last_point
-        print self.last_point
+        print "Last Point:", self.last_point
         self.x = self.point.x
         self.y = self.point.y
         self.get_slope_of_tangent_line()
-        print self.tangent_slope
+        print "Tangent Line Slope:", float(self.tangent_slope)
         self.get_slope_of_normal()
-        print self.normal_slope
+        print "Slope of Normal:", float(self.normal_slope)
         self.get_length_of_normal()
-        print self.normal_length
+        print "Length of Normal:", float(self.normal_length)
         self.get_length_of_last_line()
-        print self.last_line_length
+        print "Length of Last Line:", float(self.last_line_length)
         self.get_slope_of_last_line()
-        print self.last_line_slope
+        print "Slope of Last Line:", float(self.last_line_slope)
         self.get_angle_of_incidence()
-        print self.angle_of_incidence
+        print "Angle of Incidence:", float(self.angle_of_incidence)
         self.get_next_point_coordinates()
-        print self.next_coordinates
+        print "Next Point:", self.next_coordinates
+        print "==========================================="
 
     def get_slope_of_tangent_line(self):
 
-        self.tangent_slope = (-4 * self.x) / self.y
+        self.tangent_slope = (-4 * self.point.x) / self.point.y
 
     def get_slope_of_normal(self):
 
-        self.normal_slope = (float(1.0) / self.tangent_slope)
+        self.normal_slope = -(float(1.0) / self.tangent_slope)
 
     def get_length_of_normal(self):
 
@@ -88,7 +90,8 @@ class EPoint(object):
 
     def get_slope_of_last_line(self):
 
-        self.last_line_slope = self.get_line_slope(self.point, self.last_point)
+        line = Segment(self.point, self.last_point)
+        self.last_line_slope = line.slope
 
     def get_angle_of_incidence(self):
 
@@ -97,17 +100,35 @@ class EPoint(object):
         adjacent, hypotenuse = min(lines), max(lines)
         self.angle_of_incidence = (adjacent / hypotenuse)
 
+    def get_new_line_slope(self):
+
+        return math.tan(self.angle_of_incidence)
+
     def get_next_point_coordinates(self):
 
         e = Ellipse(Point(0.0, 0.0), 5.0, 10.0)
-        new_line_slope = math.tan(self.angle_of_incidence)
-        new_ray = Line(self.point, slope=new_line_slope)
-        ray_intersect = [i for i in e.intersection(new_ray)]
+        new_line_slope = self.get_new_line_slope()
 
-        if self.point == ray_intersect[0]:
-            self.next_coordinates = ray_intersect[1]
-        if self.point == ray_intersect[1]:
-            self.next_coordinates = ray_intersect[0]
+        new_ray = Line(self.point, slope=-new_line_slope)
+        ray_intersect = [i for i in e.intersection(new_ray)]
+        print "Intersection points:", ray_intersect
+        if self.point.x == ray_intersect[0].x and self.point.y == ray_intersect[0].y:
+            print "Selecting ray[1]"
+            self.next_coordinates = Point(ray_intersect[1])
+        if self.point.x == ray_intersect[1].x and self.point.y == ray_intersect[1].y:
+            print "Selecting ray[0]"
+            self.next_coordinates = Point(ray_intersect[0])
+        else:
+            print "NONE SELECTED."
+
+    @staticmethod
+    def normalize_error(point):
+
+        x = float(point.x)
+        y = float(point.y)
+        x1 = str(round(x, 5))
+        y1 = str(round(y, 5))
+        return [float(x1), float(y1)]
 
     @staticmethod
     def get_line_slope(point1, point2):
@@ -125,6 +146,10 @@ def plot_points(list_of_points):
 
     x_vals = [point.x for point in list_of_points]
     y_vals = [point.y for point in list_of_points]
+    # lines = []
+    # for i in range(0, len(x_vals) - 1):
+    #     line = mlines.Line2D([x_vals[i], x_vals[i + 1]], [y_vals[i], y_vals[i + 1]])
+    #     lines.append(line)
 
     e = eplot(xy=(0, 0), width=10, height=20, angle=0, edgecolor='b', fc='none', lw=2)
     a = plt.subplot(111, aspect='equal')
@@ -136,6 +161,8 @@ def plot_points(list_of_points):
     plt.xlim(-10, 10)
     plt.ylim(-12, 12)
     plt.plot(x_vals, y_vals, 'ro')
+    # for line in lines:
+    #     plt.plot(line)
     plt.show()
 
 def solve():
@@ -168,9 +195,9 @@ def test(rounds):
     while len(points) < rounds + 1:
         p = EPoint(point, last_point)
         points.append(p)
-        point = Point(float(p.next_coordinates.x), float(p.next_coordinates.y))
+        point = p.next_coordinates
         last_point = p.point
     plot_points(points)
 
-test(0)
-
+test(1)
+# Next line equation is wrong.

@@ -19,7 +19,8 @@ def import_names():
     lines = words_text.read().split(',')
     for word in lines:
         words_list.append(word.strip('"').strip("'"))
-    print "Words imported successfully."
+    print "%d words imported successfully." % len(words_list)
+    print " "
     return words_list
 
 

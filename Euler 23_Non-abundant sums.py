@@ -45,7 +45,7 @@ def is_abundant(num):
     return abundant
 
 
-def abundant_sums(abundant_list):  # This function is too slow.
+def abundant_sums(abundant_list):
 
     """Receives a list of abundant numbers.
     Returns the sums of all possible r=2 permutations."""
