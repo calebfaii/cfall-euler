@@ -1,0 +1,40 @@
+# Find the unique positive integer whose square has the form
+#
+# 1_2_3_4_5_6_7_8_9_0,
+#
+# where each "_" is a single digit.
+
+import math
+import progressbar
+
+
+def build_integer(perm):
+
+    integer = '1_2_3_4_5_6_7_8_9_0'
+
+    for digit in perm:
+        integer = str.replace(integer, '_', digit, 1)
+
+    return integer
+
+
+def solve():
+
+    bar = progressbar.ProgressBar(max_value=99999999)
+    values = enumerate(xrange(999999998, 0, -2))
+
+    for i, num in values:
+
+        perm = str(num).zfill(9)
+        p = build_integer(perm)
+        s = math.sqrt(float(p))
+
+        if s.is_integer():
+            return "\n\nUnique Positive Integer:   %d" \
+                   "\n                 Square:   %s" % (int(s), p)
+
+        bar.update(i)
+        next(values)
+
+print solve()
+# SOLVED

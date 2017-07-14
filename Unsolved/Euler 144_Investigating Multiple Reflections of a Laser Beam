@@ -1,0 +1,176 @@
+# In laser physics, a "white cell" is a mirror system that acts as a delay line for the laser beam.
+# The beam enters the cell, bounces around on the mirrors, and eventually works its way back out.
+#
+# The specific white cell we will be considering is an ellipse with the equation 4x2 + y2 = 100
+#
+# The section corresponding to -0.01 <= x <= +0.01 at the top is missing, allowing the light to enter
+# and exit through the hole.
+#
+# The light beam in this problem starts at the point (0.0,10.1) just outside the white cell, and the
+# beam first impacts the mirror at (1.4,-9.6).
+#
+# Each time the laser beam hits the surface of the ellipse, it follows the usual law of reflection
+# "angle of incidence equals angle of reflection." That is, both the incident and reflected beams make
+# the same angle with the normal line at the point of incidence.
+#
+# In the figure on the left, the red line shows the first two points of contact between the laser beam
+# and the wall of the white cell; the blue line shows the line tangent to the ellipse at the point of
+# incidence of the first bounce.
+#
+# The slope m of the tangent line at any point (x,y) of the given ellipse is: m = -4x/y
+#
+# The normal line is perpendicular to this tangent line at the point of incidence.
+#
+# The animation on the right shows the first 10 reflections of the beam.
+#
+# How many times does the beam hit the internal surface of the white cell before exiting?
+
+import math
+from sympy import Ellipse, Point, Line, Segment
+import matplotlib.pyplot as plt
+from matplotlib.patches import Ellipse as eplot
+
+beam_start = Point(0.0, 10.1)
+first_intersect = Point(1.4,-9.6)
+
+exit_left = -0.01
+exit_right = 0.01
+
+class EPoint(object):
+
+    tangent_slope = 0
+    last_line_length = 0
+    last_line_slope = 0
+    normal_slope = 0
+    normal_length = 0
+    angle_of_incidence = 0
+    next_coordinates = 0
+
+    def __init__(self, point, last_point):
+
+        self.point = point
+        print "Point", self.point
+        self.last_point = last_point
+        print self.last_point
+        self.x = self.point.x
+        self.y = self.point.y
+        self.get_slope_of_tangent_line()
+        print self.tangent_slope
+        self.get_slope_of_normal()
+        print self.normal_slope
+        self.get_length_of_normal()
+        print self.normal_length
+        self.get_length_of_last_line()
+        print self.last_line_length
+        self.get_slope_of_last_line()
+        print self.last_line_slope
+        self.get_angle_of_incidence()
+        print self.angle_of_incidence
+        self.get_next_point_coordinates()
+        print self.next_coordinates
+
+    def get_slope_of_tangent_line(self):
+
+        self.tangent_slope = (-4 * self.x) / self.y
+
+    def get_slope_of_normal(self):
+
+        self.normal_slope = (float(1.0) / self.tangent_slope)
+
+    def get_length_of_normal(self):
+
+        normal_coordinates = Point(-self.x, -self.y)
+        self.normal_length = self.get_line_length(self.point, normal_coordinates)
+
+    def get_length_of_last_line(self):
+
+        self.last_line_length = self.get_line_length(self.point, self.last_point)
+
+    def get_slope_of_last_line(self):
+
+        self.last_line_slope = self.get_line_slope(self.point, self.last_point)
+
+    def get_angle_of_incidence(self):
+
+        lines = [self.normal_length, self.last_line_length]
+
+        adjacent, hypotenuse = min(lines), max(lines)
+        self.angle_of_incidence = (adjacent / hypotenuse)
+
+    def get_next_point_coordinates(self):
+
+        e = Ellipse(Point(0.0, 0.0), 5.0, 10.0)
+        new_line_slope = math.tan(self.angle_of_incidence)
+        new_ray = Line(self.point, slope=new_line_slope)
+        ray_intersect = [i for i in e.intersection(new_ray)]
+
+        if self.point == ray_intersect[0]:
+            self.next_coordinates = ray_intersect[1]
+        if self.point == ray_intersect[1]:
+            self.next_coordinates = ray_intersect[0]
+
+    @staticmethod
+    def get_line_slope(point1, point2):
+
+        line = Line(point1, point2)
+        return line.slope
+
+    @staticmethod
+    def get_line_length(point1, point2):
+
+        line = Segment(point1, point2)
+        return line.length
+
+def plot_points(list_of_points):
+
+    x_vals = [point.x for point in list_of_points]
+    y_vals = [point.y for point in list_of_points]
+
+    e = eplot(xy=(0, 0), width=10, height=20, angle=0, edgecolor='b', fc='none', lw=2)
+    a = plt.subplot(111, aspect='equal')
+
+    e.set_clip_box(a.bbox)
+    e.set_alpha(0.1)
+    a.add_artist(e)
+
+    plt.xlim(-10, 10)
+    plt.ylim(-12, 12)
+    plt.plot(x_vals, y_vals, 'ro')
+    plt.show()
+
+def solve():
+
+    point = first_intersect
+    last_point = beam_start
+    points = []
+    solved = False
+    solution = 0
+
+    while not solved:
+
+        p = EPoint(point, last_point)
+
+        if -0.01 <= p.next_coordinates.x <= 0.01 and p.next_coordinates.y > 0:
+            solution = len(points)
+            solved = True
+        points.append(p)
+        point = (float(p.next_coordinates.x), float(p.next_coordinates.y))
+        last_point = p.point
+
+    print "The solution is %d" % solution
+    plot_points(points)
+
+def test(rounds):
+
+    point = first_intersect
+    last_point = beam_start
+    points = []
+    while len(points) < rounds + 1:
+        p = EPoint(point, last_point)
+        points.append(p)
+        point = Point(float(p.next_coordinates.x), float(p.next_coordinates.y))
+        last_point = p.point
+    plot_points(points)
+
+test(0)
+
