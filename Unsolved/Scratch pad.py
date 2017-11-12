@@ -1,4 +1,1 @@
-newlist = [i for i in range(1,100)]
-
-
-print newlist
+print 0.1 + 0.2

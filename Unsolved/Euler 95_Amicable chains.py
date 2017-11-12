@@ -19,10 +19,7 @@ import progressbar
 
 def sum_factors(n):
 
-        return sum(set(reduce(list.__add__, ([i, n // i]
-                                             for i in range(1, int(math.sqrt(n)) + 1)
-                                             if n % i == 0)))) - n
-
+        return sum(set(reduce(list.__add__, ([i, n // i] for i in range(1, int(math.sqrt(n)) + 1) if n % i == 0)))) - n
 
 def run_chain(n):
 

@@ -11,39 +11,78 @@
 #
 # Find the least value of n for which p(n) is divisible by one million.
 
-def rule_asc(n):
+import progressbar
+
+
+def pentagonal(term):
+
+    return ((3 * (term**2)) - term) / 2
+
+def get_pentagonal_numbers(maxval):
+
+    pentagonals = []
+    p = 0
+    n = 1
+    while p <= maxval:
+        p = pentagonal(n)
+        pentagonals.append(p)
+        n += 1
+
+    return reversed(pentagonals)
+
+def modulo_mil(partitions):
+
+    return partitions % 1000000
+
+def accel_asc(n):
+
+    """
+    Returns the number of integer partitions of n.
+    :param n: integer to analyze
+    :return: number of partitions of n
+    """
+
+    partitions = 0
     a = [0 for i in range(n + 1)]
     k = 1
-    a[1] = n
+    y = n - 1
     while k != 0:
         x = a[k - 1] + 1
-        y = a[k] - 1
         k -= 1
-        while x <= y:
+        while 2 * x <= y:
             a[k] = x
             y -= x
             k += 1
+        l = k + 1
+        while x <= y:
+            a[k] = x
+            a[l] = y
+            partitions += 1
+            x += 1
+            y -= 1
         a[k] = x + y
-        yield a[:k + 1]
+        y = x + y - 1
+        partitions += 1
+    return partitions
 
 
-# def gen_parts():
-#
-#     x = 1
-#     parts = len(list(rule_asc(x)))
-#
-#     while x > 0:
-#         if x % 1000000 == 0:
-#             print x * 1000000
-#         if parts < 1000000:
-#             x += 1
-#         if parts > 1000000:
-#             if parts % 1000000 == 0:
-#                 return x
-#             else:
-#                 x += 1
-#
-# print len(list(rule_asc(55374)))
+def solve(maxvalue):
 
-print len(list(rule_asc(100)))
+    """
+    Returns the smallest n for which p(n) % 1000000 == 0.
 
+    The first n for which p(n) >= 1000000 is 61.
+    """
+
+    bar = progressbar.ProgressBar(initial_value=70, max_value=progressbar.UnknownLength)
+    nums = get_pentagonal_numbers(maxvalue)
+
+    for n in nums:
+        if modulo_mil(accel_asc(n)) == 0:
+            return n
+        bar.update(n)
+
+# print solve(56000)
+# print accel_asc(55374)
+
+# This algorithm might simply be too slow.
