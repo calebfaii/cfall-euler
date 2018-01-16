@@ -42,7 +42,7 @@ def all_odd_digits(n):
         return False
 
 
-def solve():
+
 
 
 

@@ -38,8 +38,6 @@
 # if there is no hand for either player, pull high card
 # if high cards match, it's a tie
 
-import random
-
 class Game(object):
 
     def __init__(self):
