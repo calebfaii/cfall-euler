@@ -44,7 +44,6 @@ class Game(object):
 
         self.all_hands = self.import_hands()
         self.enumerate_hands = enumerate(self.all_hands)
-
         self.player_1_wins = 0
         self.player_2_wins = 0
         self.ties = 0
