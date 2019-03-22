@@ -117,6 +117,7 @@ for key in six_member_families:
 for key in narrow_candidates:
     print key, "=", narrow_candidates[key]
 
+# WRONG
 
 
 
