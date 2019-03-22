@@ -34,21 +34,20 @@ from matplotlib.patches import Ellipse as eplot
 beam_start = Point(0.0, 10.1)
 first_intersect = Point(1.4,-9.6)
 
-exit_left = -0.01
-exit_right = 0.01
+left_boundary = -0.01
+right_boundary = 0.01
 
 class EPoint(object):
 
-    tangent_slope = 0
-    last_line_length = 0
-    last_line_slope = 0
-    normal_slope = 0
-    normal_length = 0
-    angle_of_incidence = 0
-    next_coordinates = 0
 
     def __init__(self, point, last_point):
-
+        self.tangent_slope = 0
+        self.last_line_length = 0
+        self.last_line_slope = 0
+        self.normal_slope = 0
+        self.normal_length = 0
+        self.angle_of_incidence = 0
+        self.next_coordinates = 0
         self.point = point
         print "Point:", self.point
         self.last_point = last_point
@@ -199,5 +198,5 @@ def test(rounds):
         last_point = p.point
     plot_points(points)
 
-test(1)
+test(2)
 # Next line equation is wrong.
