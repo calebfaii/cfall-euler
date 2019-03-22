@@ -59,39 +59,66 @@ hexagons = generate_list(hexagonal)
 heptagons = generate_list(heptagonal)
 octagons = generate_list(octagonal)
 
-# We need a way to compare two given lists.
+# Let's add a 'type' to each entry based on the figurate value.
 
-def compare_lists(first_list, list_to_compare):
-    matches = []
-    for number in first_list:
-        last_two = str(number)[-2:]
-        for item in list_to_compare:
-            first_two = str(item)[:2]
-            if last_two == first_two:
-                matches.append([number, item])
-    return matches
+def add_type(type_value, list_to_type):
+    for i in list_to_type:
+        ind = list_to_type.index(i)
+        list_to_type[ind] = (type_value, i)
 
-def last_item_of(some_list):
-    return some_list[-1]
+add_type(3, triangles)
+add_type(4, squares)
+add_type(5, pentagons)
+add_type(6, hexagons)
+add_type(7, heptagons)
+add_type(8, octagons)
 
-def first_item_of(some_list):
-    return some_list[0]
+# Combine all these in a list:
 
-def eliminate_candidates(candidate_list, next_list):
-    highest_candidates = []
-    new_candidates = []
-    for candidate in candidate_list:
-        highest_candidates.append(last_item_of(candidate))
-    new_matches = compare_lists(highest_candidates, next_list)
-    for candidate in candidate_list:
-        print "TESTING", candidate
-        for match in new_matches:
-            print "MATCHING", match
-            if last_item_of(candidate) == first_item_of(match):
-                new_can = candidate[:]
-                new_can.append(last_item_of(match))
-                if new_can not in(new_candidates):
-                    new_candidates.append(new_can)
-                    print "========================found"
-                    print "==========================", new_can
-    return new_candidates
+all_figurate_numbers = triangles + squares + pentagons + hexagons + heptagons + octagons
+
+# Time to build a dict of all entries, and the numbers that COULD follow them...
+
+families = {}
+
+for item in all_figurate_numbers:
+    dict_entry = []
+    last_two = str(item[1])
+    last_two = last_two[-2:]
+    for other_item in all_figurate_numbers:
+        first_two = str(other_item[1])
+        first_two = first_two[:2]
+        if last_two == first_two:
+            dict_entry.append(other_item)
+    families.update({item : dict_entry})
+
+six_member_families = {}
+
+for family in families:
+    entry = len(families[family])
+    if entry == 6:
+        six_member_families.update({family : families[family]})
+
+reference_list = [3, 4, 5, 6, 7, 8]
+reference_set = set()
+for i in reference_list:
+    reference_set.add(i)
+
+narrow_candidates = {}
+for key in six_member_families:
+    this_set = set()
+    val = six_member_families[key]
+    for tup in val:
+        p_type = tup[0]
+        this_set.add(p_type)
+        if this_set == reference_set:
+            narrow_candidates.update({key : val})
+
+for key in narrow_candidates:
+    print key, "=", narrow_candidates[key]
+
+
+
+
+
+
